@@ -1,0 +1,149 @@
+﻿<Window x:Class="Elk.Common.TypeSelectForm"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             Title="Select Way Types"
+             Background="Transparent"
+             WindowStyle="None"
+             AllowsTransparency="True"
+             WindowStartupLocation="CenterOwner"
+             Height="340"
+             Width="410"
+             DataContext="{Binding RelativeSource={RelativeSource Self}}">
+    <Window.Resources>
+        <Style x:Key="typicalButtonStyle" TargetType="Button">
+            <Setter Property="Foreground" Value="#FF252525" />
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Background" Value="#FFE8E8E8"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background">
+                        <Setter.Value>
+                            <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                                <GradientStop Color="#FF606060" Offset="1.0"/>
+                                <GradientStop Color="#FF8B8B8B" Offset="0.0"/>
+                            </LinearGradientBrush>
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="BorderBrush">
+                        <Setter.Value>
+                            <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                                <GradientStop Color="#FF606060" Offset="1.0"/>
+                                <GradientStop Color="#FF8B8B8B" Offset="0.0"/>
+                            </LinearGradientBrush>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+    <Border MouseLeftButtonDown="Border_MouseLeftButtonDown">
+        <Grid>
+            <Rectangle Fill="#FF404040" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="5,5,5,5">
+                <Rectangle.Effect>
+                    <BlurEffect Radius="10"/>
+                </Rectangle.Effect>
+            </Rectangle>
+            <Rectangle Fill="WhiteSmoke" Margin="5,5,5,5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+            <Rectangle Fill="#FF404040" Width="1" HorizontalAlignment="Left" VerticalAlignment="Stretch" Margin="5,5,0,5"/>
+            <Rectangle Fill="#FF404040" Height="1" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="5,5,5,0"/>
+            <Rectangle Fill="#FF404040" Width="1" HorizontalAlignment="Right" VerticalAlignment="Stretch" Margin="0,5,5,5"/>
+            <Rectangle Fill="#FF404040" Height="1" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Margin="5,0,5,5"/>
+
+            <!--Buttons-->
+            <Button x:Name="cancelButton" Click="cancelButton_Click" Style="{StaticResource typicalButtonStyle}" MouseEnter="cancelButton_MouseEnter" MouseLeave="cancelButton_MouseLeave"
+                    HorizontalAlignment="Right" Width="80" Height="30" VerticalAlignment="Bottom" Margin="0,0,6,6" IsCancel="True">
+                <Button.Content>
+                    <Grid Width="80" Height="30">
+                        <Rectangle x:Name="cancelButtonRect" Fill="Transparent"/>
+                        <TextBlock Text="Cancel" TextAlignment="Center"/>
+                    </Grid>
+                </Button.Content>
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <ContentPresenter Margin="{TemplateBinding Control.Padding}"
+                                          HorizontalAlignment="{TemplateBinding Control.HorizontalContentAlignment}"
+                                          VerticalAlignment="{TemplateBinding Control.VerticalContentAlignment}"
+                                          SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}"
+                                          ContentTemplate="{TemplateBinding ContentControl.ContentTemplate}"
+                                          RecognizesAccessKey="True"
+                                          Content="{TemplateBinding ContentControl.Content}"/>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <Button x:Name="okButton" Click="okButton_Click" Style="{StaticResource typicalButtonStyle}" MouseEnter="okButton_MouseEnter" MouseLeave="okButton_MouseLeave"
+                    HorizontalAlignment="Right" Width="80" Height="30" VerticalAlignment="Bottom" Margin="0,0,86,6">
+                <Button.Content>
+                    <Grid Width="80" Height="30">
+                        <Rectangle x:Name="okButtonRect" Fill="Transparent"/>
+                        <TextBlock Text="OK" TextAlignment="Center"/>
+                    </Grid>
+                </Button.Content>
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <ContentPresenter Margin="{TemplateBinding Control.Padding}"
+                                          HorizontalAlignment="{TemplateBinding Control.HorizontalContentAlignment}"
+                                          VerticalAlignment="{TemplateBinding Control.VerticalContentAlignment}"
+                                          SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}"
+                                          ContentTemplate="{TemplateBinding ContentControl.ContentTemplate}"
+                                          RecognizesAccessKey="True"
+                                          Content="{TemplateBinding ContentControl.Content}"/>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+
+            <Label Content="Select Way Types" HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top" FontSize="16" Foreground="#FF404040" FontFamily="Arial" FontWeight="Bold"/>
+            <Label Content="Available" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="16,40,0,0" FontFamily="Arial" FontSize="12" FontWeight="Bold" Foreground="#FF404040" />
+            <Label Content="Selected" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="244,40,0,0" FontFamily="Arial" FontSize="12" FontWeight="Bold" Foreground="#FF404040" />
+            <ListView Name="availableListBox" HorizontalAlignment="Left" Height="200" Margin="16,60,0,0" VerticalAlignment="Top" Width="150" ItemsSource="{Binding AvailableTypes}" />
+            <ListView Name="selectedListBox" HorizontalAlignment="Right" Height="200" Margin="0,60,16,0" VerticalAlignment="Top" Width="150" ItemsSource="{Binding SelectedTypes}"/>
+
+            <Button x:Name="addButton" Click="addButton_Click" Style="{StaticResource typicalButtonStyle}" MouseEnter="addButton_MouseEnter" MouseLeave="addButton_MouseLeave"
+                    HorizontalAlignment="Left" Width="80" Height="30" VerticalAlignment="Top" Margin="165,130,0,0">
+                <Button.Content>
+                    <Grid Width="80" Height="30">
+                        <Rectangle x:Name="addButtonRect" Fill="Transparent"/>
+                        <TextBlock Text="Add" TextAlignment="Center"/>
+                    </Grid>
+                </Button.Content>
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <ContentPresenter Margin="{TemplateBinding Control.Padding}"
+                                          HorizontalAlignment="{TemplateBinding Control.HorizontalContentAlignment}"
+                                          VerticalAlignment="{TemplateBinding Control.VerticalContentAlignment}"
+                                          SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}"
+                                          ContentTemplate="{TemplateBinding ContentControl.ContentTemplate}"
+                                          RecognizesAccessKey="True"
+                                          Content="{TemplateBinding ContentControl.Content}"/>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+
+            <Button x:Name="removeButton" Click="removeButton_Click" Style="{StaticResource typicalButtonStyle}" MouseEnter="removeButton_MouseEnter" MouseLeave="removeButton_MouseLeave"
+                    HorizontalAlignment="Left" Width="80" Height="30" VerticalAlignment="Top" Margin="165,160,0,0">
+                <Button.Content>
+                    <Grid Width="80" Height="30">
+                        <Rectangle x:Name="removeButtonRect" Fill="Transparent"/>
+                        <TextBlock Text="Remove" TextAlignment="Center"/>
+                    </Grid>
+                </Button.Content>
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <ContentPresenter Margin="{TemplateBinding Control.Padding}"
+                                          HorizontalAlignment="{TemplateBinding Control.HorizontalContentAlignment}"
+                                          VerticalAlignment="{TemplateBinding Control.VerticalContentAlignment}"
+                                          SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}"
+                                          ContentTemplate="{TemplateBinding ContentControl.ContentTemplate}"
+                                          RecognizesAccessKey="True"
+                                          Content="{TemplateBinding ContentControl.Content}"/>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <CheckBox Name="outputsCheckbox" Content="Show Individual Outputs" HorizontalAlignment="Right" Margin="0,275,19,0" VerticalAlignment="Top" RenderTransformOrigin="-0.279,1.438"/>
+        </Grid>
+    </Border>
+</Window>

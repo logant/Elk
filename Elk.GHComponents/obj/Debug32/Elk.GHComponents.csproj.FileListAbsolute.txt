@@ -1,0 +1,11 @@
+G:\Work\Elk\ElkCross\Elk.GHComponents\bin\Elk.GHComponents.dll
+G:\Work\Elk\ElkCross\Elk.GHComponents\bin\Elk.GHComponents.pdb
+G:\Work\Elk\ElkCross\Elk.GHComponents\bin\ElkLib.dll
+G:\Work\Elk\ElkCross\Elk.GHComponents\bin\LINE.Geometry.dll
+G:\Work\Elk\ElkCross\Elk.GHComponents\bin\ElkLib.pdb
+G:\Work\Elk\ElkCross\Elk.GHComponents\bin\LINE.Geometry.pdb
+G:\Work\Elk\ElkCross\Elk.GHComponents\obj\Debug32\Elk.GHComponents.csprojResolveAssemblyReference.cache
+G:\Work\Elk\ElkCross\Elk.GHComponents\obj\Debug32\Elk.GHComponents.dll
+G:\Work\Elk\ElkCross\Elk.GHComponents\obj\Debug32\Elk.GHComponents.pdb
+G:\Work\Elk\ElkCross\Elk.GHComponents\obj\Debug32\Elk.GHComponents.Properties.Resources.resources
+G:\Work\Elk\ElkCross\Elk.GHComponents\obj\Debug32\Elk.GHComponents.csproj.GenerateResource.Cache
