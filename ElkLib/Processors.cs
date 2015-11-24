@@ -167,6 +167,8 @@ namespace Elk.Common
                 double minLon = 0;
                 double maxLon = 0;
 
+                System.Globalization.CultureInfo userCulture = new System.Globalization.CultureInfo("en-us");
+
                 try
                 {
                     XmlDocument xmlDoc = new XmlDocument();
@@ -178,10 +180,14 @@ namespace Elk.Common
                         // get the boundary domains.
                         XmlNodeList bounds = xmlDoc.SelectNodes("osm/bounds");
                         XmlNode boundary = bounds[0];
-                        minLat = Convert.ToDouble(boundary.Attributes["minlat"].Value);
-                        maxLat = Convert.ToDouble(boundary.Attributes["maxlat"].Value);
-                        minLon = Convert.ToDouble(boundary.Attributes["minlon"].Value);
-                        maxLon = Convert.ToDouble(boundary.Attributes["maxlon"].Value);
+                        double.TryParse(boundary.Attributes["minlat"].Value, System.Globalization.NumberStyles.Any, userCulture, out minLat);
+                        double.TryParse(boundary.Attributes["maxlat"].Value, System.Globalization.NumberStyles.Any, userCulture, out maxLat);
+                        double.TryParse(boundary.Attributes["minlon"].Value, System.Globalization.NumberStyles.Any, userCulture, out minLon);
+                        double.TryParse(boundary.Attributes["maxlon"].Value, System.Globalization.NumberStyles.Any, userCulture, out maxLon);
+                        //minLat = Convert.ToDouble(boundary.Attributes["minlat"].Value);
+                        //maxLat = Convert.ToDouble(boundary.Attributes["maxlat"].Value);
+                        //minLon = Convert.ToDouble(boundary.Attributes["minlon"].Value);
+                        //maxLon = Convert.ToDouble(boundary.Attributes["maxlon"].Value);
                         geoDomain = new Interval2d(minLon, maxLon, minLat, maxLat);
 
                         // Get the overal size of the domains
@@ -202,8 +208,10 @@ namespace Elk.Common
                             {
                                 // Get the information from the node
                                 string ptId = nodePt.Attributes["id"].Value;
-                                double ptLon = Convert.ToDouble(nodePt.Attributes["lon"].Value);
-                                double ptLat = Convert.ToDouble(nodePt.Attributes["lat"].Value);
+                                double ptLon;
+                                double.TryParse(nodePt.Attributes["lon"].Value, System.Globalization.NumberStyles.Any, userCulture, out ptLon);
+                                double ptLat;
+                                double.TryParse(nodePt.Attributes["lat"].Value, System.Globalization.NumberStyles.Any, userCulture, out ptLat);
 
                                 // Assign it to the osmPoint
                                 OSMPoint osmPoint = new OSMPoint();
@@ -272,9 +280,9 @@ namespace Elk.Common
 
                     reader.Close();
                 }
-                catch
+                catch (Exception ex)
                 {
-                    System.Windows.Forms.MessageBox.Show("Problem reading OSM file.", "Error");
+                    System.Windows.Forms.MessageBox.Show(ex.ToString(), "Errodr");
                     xmlStr = null;
                     osmPoints = null;
                     geoDomain = null;
@@ -530,6 +538,8 @@ namespace Elk.Common
             fileInfo.Add("File Path: " + filePath);
             Interval2d latLon = new Interval2d();
 
+            System.Globalization.CultureInfo userCulture = System.Globalization.CultureInfo.CurrentCulture;
+            
             // Determine the File Type, SRTM Height file or USGS Img file.
             System.IO.FileInfo fi = new System.IO.FileInfo(filePath);
             if (fi.Extension.ToLower() == ".hgt")
@@ -546,9 +556,8 @@ namespace Elk.Common
                     string[] localArr = file.Replace("N", string.Empty).Split(new char[] { 'W' });
                     double west = 0.0;
                     double south = 0.0;
-
-                    double.TryParse(localArr[0], out south);
-                    double.TryParse(localArr[1], out west);
+                    double.TryParse(localArr[0], System.Globalization.NumberStyles.Any, userCulture, out south);
+                    double.TryParse(localArr[1], System.Globalization.NumberStyles.Any, userCulture, out west);
 
 
                     if (south != 0 && west != 0)
@@ -568,8 +577,8 @@ namespace Elk.Common
                     double west = 0.0;
                     double south = 0.0;
 
-                    double.TryParse(localArr[0], out south);
-                    double.TryParse(localArr[1], out west);
+                    double.TryParse(localArr[0], System.Globalization.NumberStyles.Any, userCulture, out south);
+                    double.TryParse(localArr[1], System.Globalization.NumberStyles.Any, userCulture, out west);
 
                     if (south != 0 && west != 0)
                     {
@@ -588,8 +597,8 @@ namespace Elk.Common
                     double west = 0.0;
                     double south = 0.0;
                     
-                    double.TryParse(localArr[0], out south);
-                    double.TryParse(localArr[1], out west);
+                    double.TryParse(localArr[0], System.Globalization.NumberStyles.Any, userCulture, out south);
+                    double.TryParse(localArr[1], System.Globalization.NumberStyles.Any, userCulture, out west);
 
                     if (south != 0 && west != 0)
                     {
@@ -608,8 +617,8 @@ namespace Elk.Common
                     double west = 0.0;
                     double south = 0.0;
 
-                    double.TryParse(localArr[0], out south);
-                    double.TryParse(localArr[1], out west);
+                    double.TryParse(localArr[0], System.Globalization.NumberStyles.Any, userCulture, out south);
+                    double.TryParse(localArr[1], System.Globalization.NumberStyles.Any, userCulture, out west);
 
                     if (south != 0 && west != 0)
                     {
@@ -624,18 +633,6 @@ namespace Elk.Common
 
             else
             {  
-                // TODO: GeoTransform[0] gives the western longitude (lonMin)
-                // TODO: GeoTransform[3] Gives the Northern Latitude (latMax)
-                // TODO: GeoTransform[1] gives the longitude pixel increment (should be identical except for sign to GeoTransform[5])
-                // TODO: GeoTransform[5] gives the latitude pixel increment (should be identical except for sign to GeoTransform[1])
-                // TODO: DataSet RasterXSize gives the number of pixels in the X (Longitude) direction.
-                // TODO: DataSet RasterYSize gives the number of pixels in the Y (Latitude) direction.
-                // TODO: multiply the appropriate pixel count and pixel increment and add it to the given lat/lon to determine
-                //       the actual bounding box for the geotiff.
-
-                // TODO: Consider a different component that just reads out GeoTIFF data as a list of strings/dictionary
-                //       instead of adding the domain to the component.
-
                 // USGS Raster File
                 Gdal.AllRegister();
                 Dataset ds = Gdal.Open(filePath, Access.GA_ReadOnly);
@@ -812,78 +809,99 @@ namespace Elk.Common
                 int endRow = band.XSize - Convert.ToInt32(lower * band.XSize);
                 int startColumn = Convert.ToInt32(left * band.YSize);
                 int endColumn = Convert.ToInt32(right * band.YSize);
-                //System.Windows.Forms.MessageBox.Show("lower: " + lower.ToString() + "\nupper: " + upper.ToString() + "\nleft: " + left.ToString() +
+
+
+                // Make sure the domain is correct before continuing:
+                double southCheck = (geoTransform[3] + (geoTransform[5] * ds.RasterYSize)) - Math.Ceiling(geoTransform[3] + (geoTransform[5] * ds.RasterYSize));
+                double northCheck = geoTransform[3] - Math.Ceiling(geoTransform[3] + (geoTransform[5] * ds.RasterYSize));
+                double eastCheck = Math.Floor(geoTransform[0] + (geoTransform[1] * ds.RasterXSize)) - geoTransform[0];
+                double westCheck = Math.Floor(geoTransform[0] + (geoTransform[1] * ds.RasterXSize)) - (geoTransform[0] + (geoTransform[1] * ds.RasterXSize));
+                //System.Windows.Forms.MessageBox.Show("southCheck: " + southCheck.ToString() + "\nnorthCheck: " + northCheck.ToString() + "\nwestCheck: " + westCheck.ToString() + "\neastCheck: " + eastCheck.ToString());
+
+                //System.Windows.Forms.MessageBox.Show("geoTransform[0]: " + geoTransform[0].ToString() + "geoTransform[3]: " + geoTransform[3].ToString() + "\nnorth: " + north.ToString() + "\nsouth: " + south.ToString() + "\neast: " + east.ToString() + "\nwest: " + west.ToString() + "\nlower: " + lower.ToString() + "\nupper: " + upper.ToString() + "\nleft: " + left.ToString() +
                 //    "\nright: " + right.ToString() + "\nstartRow: " + startRow.ToString() + "\nendRow" + endRow.ToString() + "\nstartColumn: " + startColumn.ToString() +
                 //    "\nendColumn: " + endColumn.ToString());
-                byte[] bytes = new byte[band.XSize * band.YSize];
-                short[] buffer = new short[band.XSize * band.YSize];
-                band.ReadRaster(0, 0, band.XSize, band.YSize, buffer, band.XSize, band.YSize, 0, 0);
 
-                List<List<float>> elevations = new List<List<float>>();
-                float high = -100000;
-                float low = 100000;
-                
-                for (int i = 0; i < band.XSize; i++)
+                if (lower > southCheck && lower < northCheck && upper > southCheck && upper < northCheck && left > westCheck && left < eastCheck && right > westCheck && right < eastCheck)
                 {
-                    List<float> currentRow = new List<float>();
-                    for (int j = 0; j < band.YSize; j++)
-                    {
-                        try
-                        {
-                            float curVal = Convert.ToSingle(buffer[i * band.XSize + j]);
-                            currentRow.Add(curVal);
-                            if (curVal > high)
-                                high = curVal;
-                            if (curVal < low)
-                                low = curVal;
-                        }
-                        catch { }
-                    }
-                    elevations.Add(currentRow);
-                }
-                elevations.Reverse();
-                //System.Windows.Forms.MessageBox.Show("elevations: " + elevations.Count.ToString());
 
-                double theta = (Math.PI / 180) * latDomain.Mid;
-                double yFtPerDegree = (111131.745 * scale) / band.XSize;
-                double xFtPerDegree = Math.Cos(latDomain.Mid * (Math.PI / 180)) * yFtPerDegree;
-                
-                for (int i = startRow; i < endRow; i++)
-                {
-                    List<Point3d> rowPts = new List<Point3d>();
-                    double yCoord = (i - startRow) * yFtPerDegree;
-                    for (int j = startColumn; j < endColumn; j++)
+                    byte[] bytes = new byte[band.XSize * band.YSize];
+                    short[] buffer = new short[band.XSize * band.YSize];
+                    band.ReadRaster(0, 0, band.XSize, band.YSize, buffer, band.XSize, band.YSize, 0, 0);
+
+                    List<List<float>> elevations = new List<List<float>>();
+                    float high = -100000;
+                    float low = 100000;
+
+                    for (int i = 0; i < band.XSize; i++)
                     {
-                        try
+                        List<float> currentRow = new List<float>();
+                        for (int j = 0; j < band.YSize; j++)
                         {
-                            double xCoord = (j - startColumn) * xFtPerDegree;
-                            double zCoord = Convert.ToDouble(elevations[i][j]) * scale;
-                            Point3d pt = new Point3d(xCoord, yCoord, zCoord);
-                            //points.Add(pt, new GH_Path(i - startRow));
-                            rowPts.Add(pt);
+                            try
+                            {
+                                float curVal = Convert.ToSingle(buffer[i * band.XSize + j]);
+                                currentRow.Add(curVal);
+                                if (curVal > high)
+                                    high = curVal;
+                                if (curVal < low)
+                                    low = curVal;
+                            }
+                            catch { }
                         }
-                        catch { }
+                        elevations.Add(currentRow);
                     }
-                    initialPoints.Add(rowPts);
+                    elevations.Reverse();
+                    //System.Windows.Forms.MessageBox.Show("elevations: " + elevations.Count.ToString());
+
+                    double theta = (Math.PI / 180) * latDomain.Mid;
+                    double yFtPerDegree = (111131.745 * scale) / band.XSize;
+                    double xFtPerDegree = Math.Cos(latDomain.Mid * (Math.PI / 180)) * yFtPerDegree;
+
+                    for (int i = startRow; i < endRow; i++)
+                    {
+                        List<Point3d> rowPts = new List<Point3d>();
+                        double yCoord = (i - startRow) * yFtPerDegree;
+                        for (int j = startColumn; j < endColumn; j++)
+                        {
+                            try
+                            {
+                                double xCoord = (j - startColumn) * xFtPerDegree;
+                                double zCoord = Convert.ToDouble(elevations[i][j]) * scale;
+                                Point3d pt = new Point3d(xCoord, yCoord, zCoord);
+                                //points.Add(pt, new GH_Path(i - startRow));
+                                rowPts.Add(pt);
+                            }
+                            catch { }
+                        }
+                        initialPoints.Add(rowPts);
+                    }
                 }
             }
-            
-            // Flip the matrix of the list to make sure the UV will match up naturally.
-            List<List<Point3d>> outPoints = new List<List<Point3d>>();
-            for (int i = 0; i < initialPoints[0].Count; i++)
+
+            if (initialPoints.Count == 0)
             {
-                List<Point3d> tempPoints = new List<Point3d>();
-                for (int j = 0; j < initialPoints.Count; j++)
-                {
-                    try
-                    {
-                        tempPoints.Add(initialPoints[j][i]);
-                    }
-                    catch { }
-                }
-                outPoints.Add(tempPoints);
+                return null;
             }
-            return outPoints;
+            else
+            {
+                // Flip the matrix of the list to make sure the UV will match up naturally.
+                List<List<Point3d>> outPoints = new List<List<Point3d>>();
+                for (int i = 0; i < initialPoints[0].Count; i++)
+                {
+                    List<Point3d> tempPoints = new List<Point3d>();
+                    for (int j = 0; j < initialPoints.Count; j++)
+                    {
+                        try
+                        {
+                            tempPoints.Add(initialPoints[j][i]);
+                        }
+                        catch { }
+                    }
+                    outPoints.Add(tempPoints);
+                }
+                return outPoints;
+            }
         }
 
         public static FeatureType ByName(string name)

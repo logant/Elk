@@ -38,8 +38,6 @@ namespace Elk.Revit
         double lonMin;
         double lonMax;
 
-        bool format = true;
-        int formatSize;
         double unitScale;
 
         ExternalCommandData commandData;
@@ -119,15 +117,14 @@ namespace Elk.Revit
         private void okButton_Click(object sender, RoutedEventArgs e)
         {
             // Get the lat and long domain
-            double minLat = Convert.ToDouble(minLatTextBox.Text);
-            double maxLat = Convert.ToDouble(maxLatTextBox.Text);
-            double minLon = Convert.ToDouble(minLonTextBox.Text);
-            double maxLon = Convert.ToDouble(maxLonTextBox.Text);
+            latMin = Convert.ToDouble(minLatTextBox.Text);
+            latMax = Convert.ToDouble(maxLatTextBox.Text);
+            lonMin = Convert.ToDouble(minLonTextBox.Text);
+            lonMax = Convert.ToDouble(maxLonTextBox.Text);
 
-            LINE.Geometry.Interval2d topoDomain = new LINE.Geometry.Interval2d(minLon, maxLon, minLat, maxLat);
+            LINE.Geometry.Interval2d topoDomain = new LINE.Geometry.Interval2d(lonMin, lonMax, latMin, latMax);
 
             // output parameters
-            List<List<XYZ>> topoPoints = null;
             
             string filePath = fileTextBox.Text;
 

@@ -1,0 +1,12 @@
+G:\Work\Elk\ElkCross\Elk.DynamoComponents\bin\x64\Release\Elk.dll
+G:\Work\Elk\ElkCross\Elk.DynamoComponents\bin\x64\Release\Elk.pdb
+G:\Work\Elk\ElkCross\Elk.DynamoComponents\bin\x64\Release\ElkLib.dll
+G:\Work\Elk\ElkCross\Elk.DynamoComponents\bin\x64\Release\LINE.Geometry.dll
+G:\Work\Elk\ElkCross\Elk.DynamoComponents\bin\x64\Release\gdal_csharp.dll
+G:\Work\Elk\ElkCross\Elk.DynamoComponents\bin\x64\Release\ogr_csharp.dll
+G:\Work\Elk\ElkCross\Elk.DynamoComponents\bin\x64\Release\osr_csharp.dll
+G:\Work\Elk\ElkCross\Elk.DynamoComponents\bin\x64\Release\ElkLib.pdb
+G:\Work\Elk\ElkCross\Elk.DynamoComponents\bin\x64\Release\LINE.Geometry.pdb
+G:\Work\Elk\ElkCross\Elk.DynamoComponents\obj\x64\Release\Elk.DynamoComponents.csprojResolveAssemblyReference.cache
+G:\Work\Elk\ElkCross\Elk.DynamoComponents\obj\x64\Release\Elk.dll
+G:\Work\Elk\ElkCross\Elk.DynamoComponents\obj\x64\Release\Elk.pdb

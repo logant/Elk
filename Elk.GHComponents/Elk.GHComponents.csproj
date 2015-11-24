@@ -49,7 +49,7 @@
     <Reference Include="System.Windows.Forms" />
     <Reference Include="RhinoCommon">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files (x86)\Rhinoceros 5.0\System\rhinocommon.dll</HintPath>
+      <HintPath>C:\Program Files\Rhinoceros 5.0\System\RhinoCommon.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Grasshopper">
@@ -93,9 +93,9 @@
       <Project>{37f51ae1-c859-4878-bd84-782fd8ae84b3}</Project>
       <Name>ElkLib</Name>
     </ProjectReference>
-    <ProjectReference Include="..\GeometryInheritance\GeometryInheritance.csproj">
+    <ProjectReference Include="..\LINE.Geometry\Geometry.csproj">
       <Project>{ab22888c-8134-4d0e-818d-2b28216ec906}</Project>
-      <Name>GeometryInheritance</Name>
+      <Name>Geometry</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

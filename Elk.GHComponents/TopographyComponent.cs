@@ -74,37 +74,44 @@ namespace Elk.GHComponents
                 {
                     // Retrieve the topography point data
                     List<List<LINE.Geometry.Point3d>> pts = Elk.Common.ElkLib.ProcessTopoFile(filePath, unitScale, new LINE.Geometry.Interval2d(lonDomain.Min, lonDomain.Max, latDomain.Min, latDomain.Max));
-                    DataTree<Point3d> topoPoints = new DataTree<Point3d>();
-                    List<Point3d> flattenedPoints = new List<Point3d>();
-                    List<Curve> curves = new List<Curve>();
-
-                    // Convert the LINE.Geometry.Point3d to a Rhino.Geometry.Point3d and generate the Rhino Curves and Surface.
-                    for (int i = 0; i < pts.Count; i++)
+                    if (pts == null)
                     {
-                        try
-                        {
-                            List<LINE.Geometry.Point3d> rowPoints = pts[i];
-                            List<Point3d> crvPts = new List<Point3d>();
-                            for (int j = 0; j < rowPoints.Count; j++)
-                            {
-                                try
-                                {
-                                    Point3d pt = new Point3d(rowPoints[j].X, rowPoints[j].Y, rowPoints[j].Z);
-                                    crvPts.Add(pt);
-                                    flattenedPoints.Add(pt);
-                                    topoPoints.Add(pt, new GH_Path(i));
-                                }
-                                catch { }
-                            }
-                            curves.Add(Curve.CreateInterpolatedCurve(crvPts, 3));
-                        }
-                        catch { }
+                        AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "The domain specified does not match the file domains.  Check the file domain from the 'info' output and verify that your latitude and longitude domains are within it.");
                     }
+                    else
+                    {
+                        DataTree<Point3d> topoPoints = new DataTree<Point3d>();
+                        List<Point3d> flattenedPoints = new List<Point3d>();
+                        List<Curve> curves = new List<Curve>();
 
-                    NurbsSurface surf = NurbsSurface.CreateFromPoints(flattenedPoints, topoPoints.BranchCount, topoPoints.Branches[0].Count, 3, 3);
-                    DA.SetDataTree(1, topoPoints);
-                    DA.SetDataList(2, curves);
-                    DA.SetData(3, surf);
+                        // Convert the LINE.Geometry.Point3d to a Rhino.Geometry.Point3d and generate the Rhino Curves and Surface.
+                        for (int i = 0; i < pts.Count; i++)
+                        {
+                            try
+                            {
+                                List<LINE.Geometry.Point3d> rowPoints = pts[i];
+                                List<Point3d> crvPts = new List<Point3d>();
+                                for (int j = 0; j < rowPoints.Count; j++)
+                                {
+                                    try
+                                    {
+                                        Point3d pt = new Point3d(rowPoints[j].X, rowPoints[j].Y, rowPoints[j].Z);
+                                        crvPts.Add(pt);
+                                        flattenedPoints.Add(pt);
+                                        topoPoints.Add(pt, new GH_Path(i));
+                                    }
+                                    catch { }
+                                }
+                                curves.Add(Curve.CreateInterpolatedCurve(crvPts, 3));
+                            }
+                            catch { }
+                        }
+
+                        NurbsSurface surf = NurbsSurface.CreateFromPoints(flattenedPoints, topoPoints.BranchCount, topoPoints.Branches[0].Count, 3, 3);
+                        DA.SetDataTree(1, topoPoints);
+                        DA.SetDataList(2, curves);
+                        DA.SetData(3, surf);
+                    }
                 }
             }
 
@@ -127,6 +134,11 @@ namespace Elk.GHComponents
         public override Guid ComponentGuid
         {
             get { return new Guid("{7969ecfe-aeca-41d3-b03d-d4d79a3db6a5}"); }
+        }
+
+        public override void AddRuntimeMessage(GH_RuntimeMessageLevel level, string text)
+        {
+            base.AddRuntimeMessage(level, text);
         }
 
         public override void AppendAdditionalMenuItems(System.Windows.Forms.ToolStripDropDown menu)

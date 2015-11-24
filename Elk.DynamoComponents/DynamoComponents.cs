@@ -26,8 +26,6 @@ namespace Elk
 
         static List<string> featureTypes = (Elk.Common.ElkLib.featureKeys).ToList();
 
-        static bool osmTrigger = false;
-
         private static readonly BackgroundWorker worker = new BackgroundWorker();
 
         /// <summary>
@@ -313,7 +311,6 @@ namespace Elk
             List<List<Point>> topoPoints = null;
             List<NurbsCurve> curves = null;
             NurbsSurface ns = null;
-            PolySurface ps = null;
             
             // try to get the scale
             double scale = 1.0;
@@ -345,6 +342,7 @@ namespace Elk
                     surfPoints[i] = crvPts.ToArray();
                     topoPoints.Add(crvPts);
                     NurbsCurve nc = NurbsCurve.ByPoints(crvPts, 3);
+                    
                     //PolyCurve pc = PolyCurve.ByPoints(crvPts, false);
                     curves.Add(nc);
                 }
