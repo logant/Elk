@@ -2,3 +2,4 @@ G:\Work\Elk\ElkCross\LINE.Geometry\obj\Release\LINE.Geometry.dll
 G:\Work\Elk\ElkCross\LINE.Geometry\obj\Release\LINE.Geometry.pdb
 G:\Work\Elk\ElkCross\LINE.Geometry\bin\Release\LINE.Geometry.dll
 G:\Work\Elk\ElkCross\LINE.Geometry\bin\Release\LINE.Geometry.pdb
+G:\Work\Elk\ElkCross\LINE.Geometry\obj\Release\Geometry.csprojResolveAssemblyReference.cache

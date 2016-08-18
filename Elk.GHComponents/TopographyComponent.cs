@@ -27,7 +27,7 @@ namespace Elk.GHComponents
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddTextParameter("File Path", "File", "Path to an HGT, GeoTiff, or IMG file", GH_ParamAccess.item);
-            pManager.AddIntervalParameter("Longitude", "Lon", "Longitiude domain.", GH_ParamAccess.item);
+            pManager.AddIntervalParameter("Longitude", "Lon", "Longitiude domain.", GH_ParamAccess.item);                           7
             pManager.AddIntervalParameter("Latitude", "Lat", "Latitiude domain.", GH_ParamAccess.item);
             
 
@@ -62,14 +62,13 @@ namespace Elk.GHComponents
 
             // Get the Rhino Units to properly scale the lat/lon data into Rhino units
             double unitScale = CommonGHProcessors.GetRhinoUnitScale(Rhino.RhinoDoc.ActiveDoc);
-            
+            System.Windows.Forms.MessageBox.Show("START");
             if (filePath != null && System.IO.File.Exists(filePath))
             {
                 // Get the file domain
                 List<string> fileInfo = Elk.Common.ElkLib.TopoFileInfo(filePath);
                 
                 DA.SetDataList(0, fileInfo);
-
                 if (latDomain.Length > 0 && lonDomain.Length > 0)
                 {
                     // Retrieve the topography point data
@@ -113,8 +112,15 @@ namespace Elk.GHComponents
                         DA.SetData(3, surf);
                     }
                 }
+                else
+                {
+                    System.Windows.Forms.MessageBox.Show("Did nothing internal");
+                }
             }
-
+             else
+            {
+                System.Windows.Forms.MessageBox.Show("Did nothing external");
+            }
         }
 
         /// <summary>

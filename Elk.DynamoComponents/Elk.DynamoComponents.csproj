@@ -52,7 +52,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="DSCoreNodes">
-      <HintPath>C:\Program Files\Dynamo 0.8\DSCoreNodes.dll</HintPath>
+      <HintPath>C:\Program Files\Dynamo 0.9\DSCoreNodes.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="DSCoreNodesUI">
@@ -60,49 +60,49 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="DynamoApplications">
-      <HintPath>C:\Program Files\Dynamo 0.8\DynamoApplications.dll</HintPath>
+      <HintPath>C:\Program Files\Dynamo 0.9\DynamoApplications.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="DynamoCore">
-      <HintPath>C:\Program Files\Dynamo 0.8\DynamoCore.dll</HintPath>
+      <HintPath>C:\Program Files\Dynamo 0.9\DynamoCore.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="DynamoCoreWpf">
-      <HintPath>C:\Program Files\Dynamo 0.8\DynamoCoreWpf.dll</HintPath>
+      <HintPath>C:\Program Files\Dynamo 0.9\DynamoCoreWpf.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="DynamoUtilities">
-      <HintPath>C:\Program Files\Dynamo 0.8\DynamoUtilities.dll</HintPath>
+      <HintPath>C:\Program Files\Dynamo 0.9\DynamoUtilities.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Microsoft.Practices.Prism">
-      <HintPath>C:\Program Files\Dynamo 0.8\Microsoft.Practices.Prism.dll</HintPath>
+      <HintPath>C:\Program Files\Dynamo 0.9\Microsoft.Practices.Prism.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="ProtoCore">
-      <HintPath>C:\Program Files\Dynamo 0.8\ProtoCore.dll</HintPath>
+      <HintPath>C:\Program Files\Dynamo 0.9\ProtoCore.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="ProtoGeometry">
-      <HintPath>C:\Program Files\Dynamo 0.8\ProtoGeometry.dll</HintPath>
+      <HintPath>C:\Program Files\Dynamo 0.9\ProtoGeometry.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="ProtoInterface">
-      <HintPath>C:\Program Files\Dynamo 0.8\ProtoInterface.dll</HintPath>
+      <HintPath>C:\Program Files\Dynamo 0.9\ProtoInterface.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="RevitAPI">
-      <HintPath>C:\Program Files\Autodesk\Revit 2015\RevitAPI.dll</HintPath>
+      <HintPath>C:\Program Files\Autodesk\Revit 2016\RevitAPI.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="RevitAPIUI">
-      <HintPath>C:\Program Files\Autodesk\Revit 2015\RevitAPIUI.dll</HintPath>
+      <HintPath>C:\Program Files\Autodesk\Revit 2016\RevitAPIUI.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="RevitServices">
-      <HintPath>C:\Program Files\Dynamo 0.8\Revit_2016\RevitServices.dll</HintPath>
+      <HintPath>C:\Program Files\Dynamo 0.9\Revit_2016\RevitServices.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />

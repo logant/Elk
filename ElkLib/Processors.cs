@@ -716,10 +716,10 @@ namespace Elk.Common
                     double mLonX = minLonX * formatSize;
                     double MLonX = maxLonX * formatSize;
 
-                    int srtmXStart = Convert.ToInt32(mLonX); //0-3600: row/column count
-                    int srtmXEnd = Convert.ToInt32(MLonX);   //0-3600: row/column count
-                    int srtmYStart = 3600 - Convert.ToInt32(MLatY); //0-3600: row/column count
-                    int srtmYEnd = 3600 - Convert.ToInt32(mLatY);   //0-3600: row/column count
+                    int srtmXStart = Convert.ToInt32(mLonX); 
+                    int srtmXEnd = Convert.ToInt32(MLonX);   
+                    int srtmYStart = formatSize - 1 - Convert.ToInt32(MLatY); //0-3600: row/column count
+                    int srtmYEnd = formatSize - 1 - Convert.ToInt32(mLatY);   //0-3600: row/column count
 
                     int xTravel = srtmXEnd - srtmXStart - 1;
                     int yTravel = srtmYEnd - srtmYStart;
@@ -800,13 +800,13 @@ namespace Elk.Common
                 double north = latDomain.Max;
                 double south = latDomain.Min;
 
-                double lower = geoTransform[3] - north;
-                double upper = geoTransform[3] - south;
-                double left = west - geoTransform[0];
-                double right = east - geoTransform[0];
-
-                int startRow = band.XSize - Convert.ToInt32(upper * band.XSize);
-                int endRow = band.XSize - Convert.ToInt32(lower * band.XSize);
+                double lower = RemapDomain(south, band.YSize * geoTransform[5] + geoTransform[3], geoTransform[3]);
+                double upper = RemapDomain(north, band.YSize * geoTransform[5] + geoTransform[3], geoTransform[3]);
+                double left = RemapDomain(west, geoTransform[0], band.XSize * geoTransform[1] + geoTransform[0]);
+                double right = RemapDomain(east, geoTransform[0], band.XSize * geoTransform[1] + geoTransform[0]);
+                //System.Windows.Forms.MessageBox.Show("Test:\n" + "lower: " + lower.ToString() + "\nupper: " + upper.ToString() + "\nsouth: " + south.ToString() + "\nnorth: " + north.ToString());
+                int startRow = Convert.ToInt32(lower * band.XSize);
+                int endRow = Convert.ToInt32(upper * band.XSize);
                 int startColumn = Convert.ToInt32(left * band.YSize);
                 int endColumn = Convert.ToInt32(right * band.YSize);
 
@@ -818,7 +818,7 @@ namespace Elk.Common
                 double westCheck = Math.Floor(geoTransform[0] + (geoTransform[1] * ds.RasterXSize)) - (geoTransform[0] + (geoTransform[1] * ds.RasterXSize));
                 //System.Windows.Forms.MessageBox.Show("southCheck: " + southCheck.ToString() + "\nnorthCheck: " + northCheck.ToString() + "\nwestCheck: " + westCheck.ToString() + "\neastCheck: " + eastCheck.ToString());
 
-                //System.Windows.Forms.MessageBox.Show("geoTransform[0]: " + geoTransform[0].ToString() + "geoTransform[3]: " + geoTransform[3].ToString() + "\nnorth: " + north.ToString() + "\nsouth: " + south.ToString() + "\neast: " + east.ToString() + "\nwest: " + west.ToString() + "\nlower: " + lower.ToString() + "\nupper: " + upper.ToString() + "\nleft: " + left.ToString() +
+                //System.Windows.Forms.MessageBox.Show("geoTransform[0]: " + geoTransform[0].ToString() + "\ngeoTransform[3]: " + geoTransform[3].ToString() + "\nnorth: " + north.ToString() + "\nsouth: " + south.ToString() + "\neast: " + east.ToString() + "\nwest: " + west.ToString() + "\nlower: " + lower.ToString() + "\nupper: " + upper.ToString() + "\nleft: " + left.ToString() +
                 //    "\nright: " + right.ToString() + "\nstartRow: " + startRow.ToString() + "\nendRow" + endRow.ToString() + "\nstartColumn: " + startColumn.ToString() +
                 //    "\nendColumn: " + endColumn.ToString());
 
@@ -928,6 +928,11 @@ namespace Elk.Common
                 Enum.TryParse(tempName, out ft);
                 return ft;
             }
+        }
+
+        public static double RemapDomain(double currentValue, double startValue, double endValue)
+        {
+            return (currentValue - startValue) / (endValue - startValue);
         }
     }
 }
