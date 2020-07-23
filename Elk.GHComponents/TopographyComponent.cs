@@ -27,7 +27,7 @@ namespace Elk.GHComponents
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddTextParameter("File Path", "File", "Path to an HGT, GeoTiff, or IMG file", GH_ParamAccess.item);
-            pManager.AddIntervalParameter("Longitude", "Lon", "Longitiude domain.", GH_ParamAccess.item);                           7
+            pManager.AddIntervalParameter("Longitude", "Lon", "Longitiude domain.", GH_ParamAccess.item);                           
             pManager.AddIntervalParameter("Latitude", "Lat", "Latitiude domain.", GH_ParamAccess.item);
             
 
